@@ -1,36 +1,32 @@
 package ru.aristovo.base;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.junit.BeforeClass;
+import ru.aristovo.framework.managers.InitManager;
+import ru.aristovo.framework.managers.PageManager;
+import ru.aristovo.framework.managers.TestPropManager;
 
-import java.util.concurrent.TimeUnit;
+import static ru.aristovo.framework.managers.DriverManager.getDriver;
+import static ru.aristovo.framework.utils.PropConst.APP_URL;
 
 public class BaseTests {
 
-    protected WebDriver driver;
-    protected WebDriverWait wait;
+    protected PageManager app = PageManager.getPageManager();
 
-    @Before
-    public void before() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/webdriver/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        wait = new WebDriverWait(driver, 10, 1000);
-
-        // 1. открыть dns-shop
-        String baseUrl = "https://www.sberbank.ru/ru/person/";
-        driver.get(baseUrl);
+    @BeforeClass
+    public static void beforeAll() {
+        InitManager.initFramework();
     }
 
-    @After
-    public void after() {
-        driver.quit();
+    @Before
+    public void beforeEach() {
+        getDriver().get(TestPropManager.getTestPropManager().getProperty(APP_URL));
+    }
+
+    @AfterClass
+    public static void afterAll() {
+        InitManager.quitFramework();
     }
 
 }
