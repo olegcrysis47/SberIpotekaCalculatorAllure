@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.aristovo.base.BaseTests;
@@ -41,6 +42,32 @@ public class SberIpotekaCalculatorTest extends BaseTests {
                         "kit-col_xs-bottom_20 kit-col_lg-bottom_10 kit-col_xs-top_20 kit-col_lg-top_40']//h1"));
         Assert.assertEquals("Заголовок страницы не соответствует ожидаемому",
                 "Ипотека от 7,3%* на готовые квартиры", titlePageIpoteka.getText());
+
+        WebElement titleCalculateIpoteka = driver.findElement(By.xpath("//h2[contains(.,'Рассчитайте ипотеку')]"));
+        scrollToElementJs(titleCalculateIpoteka);
+
+        driver.switchTo().frame("iFrameResizer0");
+
+        WebElement price = driver.findElement(By.xpath("//span[@class='_3akqIukcHrgIDOuebcl58f']//div[contains(.,'Стоимость недвижимости')]//input"));
+        price.sendKeys(Keys.CONTROL + "A");
+        price.sendKeys("5 180 000");
+        Assert.assertEquals("В поле СТОИМОСТЬ НЕДВИЖИМОСТИ введена неверная сумма",
+                "5 180 000", price.getAttribute("value"));
+
+        WebElement firstPay = driver.findElement(By.xpath("//span[@class='_3akqIukcHrgIDOuebcl58f']//div[contains(.,'Первоначальный взнос')]//input"));
+        firstPay.sendKeys(Keys.CONTROL + "A");
+        firstPay.sendKeys("3 058 000");
+        Assert.assertEquals("В поле ПЕРВОНАЧАЛЬНЫЙ ВЗНОС введена неверная сумма",
+                "3 058 000", firstPay.getAttribute("value"));
+
+        WebElement period = driver.findElement(By.xpath("//span[@class='_3akqIukcHrgIDOuebcl58f']//div[contains(.,'Срок кредита')]//input"));
+        period.sendKeys(Keys.CONTROL + "A");
+        period.sendKeys("30");
+        Assert.assertEquals("В поле СРОК КРЕДИТА введена неверная сумма",
+                "30", period.getAttribute("value"));
+
+        WebElement buttonIssue = driver.findElement(By.xpath("//button[contains(.,'Получить одобрение')]"));
+        scrollToElementJs(buttonIssue);
 
 
 
