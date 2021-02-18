@@ -51,18 +51,21 @@ public class SberIpotekaCalculatorTest extends BaseTests {
         WebElement price = driver.findElement(By.xpath("//span[@class='_3akqIukcHrgIDOuebcl58f']//div[contains(.,'Стоимость недвижимости')]//input"));
         price.sendKeys(Keys.CONTROL + "A");
         price.sendKeys("5 180 000");
+        waitThread(1000);
         Assert.assertEquals("В поле СТОИМОСТЬ НЕДВИЖИМОСТИ введена неверная сумма",
                 "5 180 000", price.getAttribute("value"));
 
         WebElement firstPay = driver.findElement(By.xpath("//span[@class='_3akqIukcHrgIDOuebcl58f']//div[contains(.,'Первоначальный взнос')]//input"));
         firstPay.sendKeys(Keys.CONTROL + "A");
         firstPay.sendKeys("3 058 000");
+        waitThread(1000);
         Assert.assertEquals("В поле ПЕРВОНАЧАЛЬНЫЙ ВЗНОС введена неверная сумма",
                 "3 058 000", firstPay.getAttribute("value"));
 
         WebElement period = driver.findElement(By.xpath("//span[@class='_3akqIukcHrgIDOuebcl58f']//div[contains(.,'Срок кредита')]//input"));
         period.sendKeys(Keys.CONTROL + "A");
         period.sendKeys("30");
+        waitThread(1000);
         Assert.assertEquals("В поле СРОК КРЕДИТА введена неверная сумма",
                 "30", period.getAttribute("value"));
 
@@ -71,10 +74,12 @@ public class SberIpotekaCalculatorTest extends BaseTests {
 
         WebElement domKlick = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-1-switcher']//input"));
         domKlick.click();
+        waitThread(1000);
         Assert.assertEquals("ДОМКЛИК - Переключение не сработало", "false", domKlick.getAttribute("aria-checked"));
 
         WebElement insurance = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-2-switcher']//input"));
         insurance.click();
+        waitThread(1000);
         Assert.assertEquals("СТРАХОВАНИЕ ЖИЗНИ - Переключение не сработало", "false", insurance.getAttribute("aria-checked"));
 
         WebElement youngFamily = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-6-switcher']//input"));
@@ -82,21 +87,45 @@ public class SberIpotekaCalculatorTest extends BaseTests {
 
         WebElement electRegist = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-7-switcher']//input"));
         electRegist.click();
+        waitThread(1000);
         Assert.assertEquals("ЭЛЕКТРОННАЯ РЕГИСТРАЦИЯ - Переключение не сработало", "false", electRegist.getAttribute("aria-checked"));
 
 
+        WebElement monthPayment = driver.findElement(By.xpath("//span[@data-e2e-id='mland-calculator/medium-result-monthly-payment']//span"));
+        scrollToElementJs(monthPayment);
+        Assert.assertEquals("Месячный платеж не верен", "16 922 ₽", monthPayment.getText());
 
-        waitThread();
+        WebElement creditSum = driver.findElement(By.xpath("//span[@data-e2e-id='mland-calculator/medium-result-credit-sum']//span"));
+        Assert.assertEquals("Сумма не верна", "2 122 000 ₽", creditSum.getText());
+
+        WebElement reqIncome = driver.findElement(By.xpath("//span[@data-e2e-id='mland-calculator/medium-result-required-income']//span"));
+        Assert.assertEquals("З/п не верен", "21 784 ₽", reqIncome.getText());
+
+        WebElement creditRate = driver.findElement(By.xpath("//span[@data-e2e-id='mland-calculator/medium-result-credit-rate']//span"));
+        Assert.assertEquals("Ставка не верна", "8,9%", creditRate.getText());
+
+        waitThread(2000);
 
 
     }
 
-    public void waitThread() {
+    public void waitThread(int s) {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(s);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void scrollMy(int x, int y) {
+        ((JavascriptExecutor)driver).executeScript("window.scrollBy(" + x + ","
+                + y + ");");
+    }
+
+    public void scrollWithOffset(WebElement element, int x, int y) {
+        String code = "window.scroll(" + (element.getLocation().x + x) + ","
+                + (element.getLocation().y + y) + ");";
+        ((JavascriptExecutor) driver).executeScript(code, element, x, y);
     }
 
     private void scrollToElementJs(WebElement element) {
