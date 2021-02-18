@@ -92,7 +92,6 @@ public class SberIpotekaCalculatorTest extends BaseTests {
 
 
         WebElement monthPayment = driver.findElement(By.xpath("//span[@data-e2e-id='mland-calculator/medium-result-monthly-payment']//span"));
-        scrollToElementJs(monthPayment);
         Assert.assertEquals("Месячный платеж не верен", "16 922 ₽", monthPayment.getText());
 
         WebElement creditSum = driver.findElement(By.xpath("//span[@data-e2e-id='mland-calculator/medium-result-credit-sum']//span"));
