@@ -69,6 +69,21 @@ public class SberIpotekaCalculatorTest extends BaseTests {
         WebElement buttonIssue = driver.findElement(By.xpath("//button[contains(.,'Получить одобрение')]"));
         scrollToElementJs(buttonIssue);
 
+        WebElement domKlick = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-1-switcher']//input"));
+        domKlick.click();
+        Assert.assertEquals("ДОМКЛИК - Переключение не сработало", "false", domKlick.getAttribute("aria-checked"));
+
+        WebElement insurance = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-2-switcher']//input"));
+        insurance.click();
+        Assert.assertEquals("СТРАХОВАНИЕ ЖИЗНИ - Переключение не сработало", "false", insurance.getAttribute("aria-checked"));
+
+        WebElement youngFamily = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-6-switcher']//input"));
+        Assert.assertEquals("МОЛОДАЯ СЕМЬЯ - переключатель выключен", "true", youngFamily.getAttribute("aria-checked"));
+
+        WebElement electRegist = driver.findElement(By.xpath("//div[@data-e2e-id='mland-calculator/discount-item-7-switcher']//input"));
+        electRegist.click();
+        Assert.assertEquals("ЭЛЕКТРОННАЯ РЕГИСТРАЦИЯ - Переключение не сработало", "false", electRegist.getAttribute("aria-checked"));
+
 
 
         waitThread();
