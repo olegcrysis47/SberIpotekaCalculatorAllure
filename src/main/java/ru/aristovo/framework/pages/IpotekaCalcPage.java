@@ -82,6 +82,7 @@ public class IpotekaCalcPage extends BasePage {
 
     @Step("Переключаем дополнительные услуги '{servName}' на '{value}'")
     public IpotekaCalcPage selectAddServ(String servName, String value) {
+        scrollByButtonIssue();
         WebElement element = null;
         switch (servName) {
             case "Скидка 0,3% при покупке квартиры на ДомКлик":

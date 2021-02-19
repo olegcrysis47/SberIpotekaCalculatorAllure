@@ -34,7 +34,7 @@ public class StartPage extends BasePage {
             if (w.getText().equalsIgnoreCase(nameSubMenu)) {
                 elementToBeClickable(w);
                 w.click();
-                return app.getIpotekaCalcPage();
+                return app.getIpotekaCalcPage().scrollToCalculatorAnsSelectFrame();
             }
         }
         Assert.fail("Подменю " + nameSubMenu + " не было найдено");
