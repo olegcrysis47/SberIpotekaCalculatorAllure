@@ -9,7 +9,7 @@ import static ru.aristovo.framework.managers.DriverManager.getDriver;
 
 public class IpotekaCalcPage extends BasePage {
 
-    @FindBy(xpath = "//div[@class='kit-col_xs_12 kit-col_md_0 kit-col_lg_6 kit-col_xs-bottom_20 kit-col_lg-bottom_10 kit-col_xs-top_20 kit-col_lg-top_40']//h1")
+    @FindBy(xpath = "//div[@class='kit-row' and count(div)>1]//h1")
     WebElement titlePageIpoteka;
     @FindBy(xpath = "//h2[contains(.,'Рассчитайте ипотеку')]")
     WebElement titleCalculateIpoteka;
@@ -57,20 +57,18 @@ public class IpotekaCalcPage extends BasePage {
         WebElement element = null;
         switch (nameField) {
             case "Стоимость недвижимости":
-                fillField(price, value);
                 element = price;
                 break;
             case "Первоначальный взнос":
-                fillField(firstPay, value);
                 element = firstPay;
                 break;
             case "Срок кредита":
-                fillField(period, value);
                 element = period;
                 break;
             default:
                 Assert.fail("Поле " + nameField + " отсутствует для заполнения");
         }
+        fillField(element, value);
         Assert.assertEquals("В поле '" +  nameField + "' введены неверные данные",
                 value, element.getAttribute("value"));
         return this;
@@ -87,24 +85,21 @@ public class IpotekaCalcPage extends BasePage {
         WebElement element = null;
         switch (servName) {
             case "Скидка 0,3% при покупке квартиры на ДомКлик":
-                selectServ(domKlick, value);
                 element = domKlick;
                 break;
             case "Страхование жизни и здоровья":
-                selectServ(insurance, value);
                 element = insurance;
                 break;
             case "Молодая семья":
-                selectServ(youngFamily, value);
                 element = youngFamily;
                 break;
             case "Электронная регистрация сделки":
-                selectServ(electRegist, value);
                 element = electRegist;
                 break;
             default:
                 Assert.fail("Переключатель " + servName + " на странице отсутствует.");
         }
+        selectServ(element, value);
         Assert.assertEquals(servName + " - переключение не сработало", value, element.getAttribute("aria-checked"));
         return this;
     }
