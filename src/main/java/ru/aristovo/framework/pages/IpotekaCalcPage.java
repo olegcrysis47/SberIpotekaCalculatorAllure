@@ -1,5 +1,6 @@
 package ru.aristovo.framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,19 +38,21 @@ public class IpotekaCalcPage extends BasePage {
     @FindBy(xpath = "//span[@data-e2e-id='mland-calculator/medium-result-credit-rate']//span")
     WebElement creditRate;
 
-
+    @Step("Проверяем открывшуюся страницу")
     public IpotekaCalcPage checkedTitlePage() {
         Assert.assertEquals("Заголовок страницы не соответствует ожидаемому",
                 "Ипотека от 7,3%* на готовые квартиры", titlePageIpoteka.getText());
         return this;
     }
 
+    @Step("Прокручиваем страницу до калькулятора ипотеки")
     public IpotekaCalcPage scrollToCalculatorAnsSelectFrame() {
         scrollToElementJs(titleCalculateIpoteka);
         getDriver().switchTo().frame("iFrameResizer0");
         return this;
     }
 
+    @Step("Заполняем поле калькулятора '{nameField}' данными '{value}'")
     public IpotekaCalcPage fillFieldInCalculator(String nameField, String value) {
         WebElement element = null;
         switch (nameField) {
@@ -73,11 +76,13 @@ public class IpotekaCalcPage extends BasePage {
         return this;
     }
 
+    @Step("Прокручиваем калькулятор до дополнительных услуг")
     public IpotekaCalcPage scrollByButtonIssue() {
         scrollToElementJs(buttonIssue);
         return this;
     }
 
+    @Step("Переключаем дополнительные услуги '{servName}' на '{value}'")
     public IpotekaCalcPage selectAddServ(String servName, String value) {
         WebElement element = null;
         switch (servName) {
@@ -104,6 +109,7 @@ public class IpotekaCalcPage extends BasePage {
         return this;
     }
 
+    @Step("Проверяем расчетное поле калькулятора '{nameMenu}', ожидаем значение '{value}'")
     public IpotekaCalcPage checkedFieldCalc(String fieldName, String value) {
         WebElement element = null;
         switch (fieldName) {
@@ -125,7 +131,7 @@ public class IpotekaCalcPage extends BasePage {
             default:
                 Assert.fail("Поле " + fieldName + " не найдено!");
         }
-        Assert.assertEquals("Поле + " + fieldName + "рассчитано не верно", value, element.getText());
+        Assert.assertEquals("Поле " + fieldName + " рассчитано не верно", value, element.getText());
         return this;
     }
 

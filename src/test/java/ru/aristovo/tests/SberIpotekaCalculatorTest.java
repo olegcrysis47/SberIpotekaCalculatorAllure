@@ -25,6 +25,6 @@ public class SberIpotekaCalculatorTest extends BaseTests {
                 .checkedFieldCalc("Ежемесячный платеж","16 922 ₽")
                 .checkedFieldCalc("Сумма кредита", "2 122 000 ₽")
                 .checkedFieldCalc("Необходимый доход", "21 784 ₽")
-                .checkedFieldCalc("Процентная ставка", "8,9%");
+                .checkedFieldCalc("Процентная ставка", "11%");
     }
 }
